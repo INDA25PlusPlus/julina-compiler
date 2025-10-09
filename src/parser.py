@@ -84,11 +84,11 @@ def parse(tokens):
         condition = parse_expression()
         consume("symbol", ")")
         consume("symbol", "{")
-        compund_statement = parse_compound_statement()
+        compound_statement = parse_compound_statement()
         consume("}")
         node = Node("if")
         node.add_child(condition)
-        node.add_child(compund_statement)
+        node.add_child(compound_statement)
         return node
 
     def parse_write(): # <write> ::= "write" "(" <expression> ")" ";"
