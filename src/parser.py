@@ -34,8 +34,24 @@ def parse(tokens):
         token_idx += 1
         return tok
 
-    def parse_expression(): # <expression> ::= <term> <operation> <expression> | <term>
-        parse_term()
+    def parse_expression(): # <expression> ::= <term> <operation> <expression> | <term>, assumes a + b + c = (a + b) + c
+        node = parse_term()
+        
+        while True:
+            token_type, token_val = peek()
+            if token_type == "binop" and token_val in ["+", "-"]:
+                binop_node = Node("binop", token_val)
+                left_child = node
+                right_child = parse_term
+
+                binop_node.add_child(left_child)
+                binop_node.add_child(right_child)
+
+                node = binop_node 
+            else:
+                break
+
+        return node
         
 
     def parse_term(): # <term> ::= <integer> | <identifier> 
@@ -72,7 +88,7 @@ def parse(tokens):
         node.add_child(compund_statement)
         return node
 
-    def parse_write():
+    def parse_write(): # <write> ::= "write" "(" <expression> ")" ";"
         consume("output", "write")
         consume("symbol", "(")
         expression = parse_expression()
