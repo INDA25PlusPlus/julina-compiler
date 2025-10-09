@@ -38,19 +38,32 @@ def tokenize(program: str):
             start = i
             while i < len(program) and is_digit(program[i]):
                 i += 1
-            tokens.append(("integer", program[start:i]))
+            tokens.append(("int", program[start:i]))
             continue
 
+        
+        # Assign
+        elif c == "=":
+            tokens.append(("assing", c))
+            i += 1
+            continue
+        
         # Operators and symbols
-        elif c in "+-=;(){}<>":
+        elif c in "+-<>":
+            tokens.append(("binop", c))
+            i += 1
+            continue
+        
+        elif c in ";(){}":
             tokens.append(("symbol", c))
             i += 1
             continue
 
+
         # Logical operators
         elif c in "&|=":
             if i + 1 < len(program) and program[i + 1] == c: 
-                tokens.append(("symbol", c + c))
+                tokens.append(("binop", c + c))
                 i += 2
             continue
 
@@ -60,3 +73,6 @@ def tokenize(program: str):
 
     return tokens
 
+
+
+print(tokenize('a = 2 + 3; while (a < 10) { write(a); a = a + 1;}'))

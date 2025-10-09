@@ -10,7 +10,7 @@
 <term> ::= <integer> | <identifier> 
 <comparison-operation> ::= "<" | ">" | "&&" | "||" | "=="
 <condition> ::= <expression> <comparison-operation> <expression> | <expression> <comparsison-operation> <condition>
-<if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}" ";"
+<if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
 
 <compound-statement> ::= <statement> | <statement> <compound-statement>
 <statement> ::= <if-statement> | <assignment> | <loop> | <write> 
@@ -23,4 +23,4 @@
 
 <loop> ::= <for-loop> | <while-loop>
 
-<while-loop> ::= "while" "(" <condition> ")" "{" <compound-statement> "}" ";"
+<while-loop> ::= "while" "(" <condition> ")" "{" <compound-statement> "}"
