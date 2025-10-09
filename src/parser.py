@@ -66,7 +66,14 @@ def parse(tokens):
         return node
 
     def parse_write():
-        pass
+        consume("output", "write")
+        consume("symbol", "(")
+        expression = parse_expression()
+        consume("symbol", ")")
+        consume("symbol", ";")
+        node = Node("Write")
+        node.add_child(expression)
+        return node
 
     def parse_while():
         pass
