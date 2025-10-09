@@ -33,13 +33,26 @@ def parse(tokens):
 
         token_idx += 1
 
-    def parse_expression():
-        pass
+    def parse_expression(): # <expression> ::= <term> <operation> <expression> | <term>
+        parse_term()
+        
+
+    def parse_term():
+        token_type, token_val = peek()
+        
+        if token_type == "integer":
+            consume("integer")
+            return Node(token_type, token_val)
+        elif token_type == "variable":
+            consume("variable")
+            return Node(token_type, token_val)
+        else:
+            print(f"Unexpected token???: {token_type} {token_val}")
 
     def parse_assignment():
         pass
 
-    def parse_if():
+    def parse_if(): # <if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
         consume("condition", "if")
         consume("symbol", "(")
         condition = parse_expression()
@@ -75,7 +88,7 @@ def parse(tokens):
                     statement = parse_write()
 
             elif token_type == "condition": 
-                if token_val == "if": # <if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
+                if token_val == "if": 
                     statement = parse_if()
 
             block.add_child(statement)
