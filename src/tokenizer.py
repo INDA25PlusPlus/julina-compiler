@@ -16,7 +16,6 @@ def tokenize(program: str):
 
     tokens = []
     #program = program.replace(" ", "")
-    print(program)
 
     i = 0
     while i < len(program):

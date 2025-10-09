@@ -1,3 +1,5 @@
+from tokenizer import tokenize
+
 class Node:
     def __init__(self, type_, value=None):
         self.type = type_    
@@ -22,7 +24,7 @@ def parse(tokens):
         return tokens[token_idx] if token_idx < len(tokens) else None
     
     def consume(expected_type=None, expected_val=None):
-
+        nonlocal token_idx
         tok = peek()
         if not tok:
             raise SyntaxError("Expected end of input")
@@ -40,9 +42,10 @@ def parse(tokens):
         while True:
             token_type, token_val = peek()
             if token_type == "binop" and token_val in ["+", "-"]:
+                consume("binop")
                 binop_node = Node("binop", token_val)
                 left_child = node
-                right_child = parse_term
+                right_child = parse_term()
 
                 binop_node.add_child(left_child)
                 binop_node.add_child(right_child)
@@ -108,7 +111,7 @@ def parse(tokens):
             if token_type == "binop" and token_val in ["<", ">", "||", "&&", "=="]:
                 consume("binop")
                 binop_node = Node("binop", token_val)
-                left_child = expression
+                left_child = node
                 right_child = parse_expression()
                 binop_node.add_child(left_child)
                 binop_node.add_child(right_child)
@@ -129,8 +132,8 @@ def parse(tokens):
         compound_statement = parse_compound_statement()
         consume("symbol", "}")
         node = Node("while")
-        node.add_child("condition", condition)
-        node.add_child("block", compound_statement)
+        node.add_child(condition)
+        node.add_child(compound_statement)
         return node
 
 
@@ -140,8 +143,11 @@ def parse(tokens):
 
         while True:
 
-            token_type, token_val = peek()
+            if peek() == None:
+                break
 
+            token_type, token_val = peek()
+            
             if token_type == "loop":
                 if token_val == "while":
                     statement = parse_while()
@@ -155,10 +161,15 @@ def parse(tokens):
                     statement = parse_if()
 
             elif token_type == "variable":
-                parse_assignment()
+                statement = parse_assignment()
+
+            elif token_type == "symbol":
+                if token_val == "}": # end of loop
+                    return Node("_")
+
 
             else:
-                print(f"INVALID TOKEN: {token_type} {token_val}")
+                raise SyntaxError (f"UNEXPECTED TOKEN: {token_type} {token_val}")
 
             block.add_child(statement)
 
@@ -168,3 +179,26 @@ def parse(tokens):
     root.add_child(parse_compound_statement())
 
     return root
+
+
+
+program = """
+        a = 2 + 3;
+
+        while (a < 10) {
+            write(a);
+            a = a + 1;
+        }
+        """
+
+tokens = tokenize(program)
+print(tokens)
+parse(tokens)
+
+
+def print_parser_tree(node, indent):
+    print(" "*indent, node.__repr__())
+    for child in node.children:
+        print_parser_tree(child, indent+1)
+
+
