@@ -99,7 +99,26 @@ def parse(tokens):
         return node
     
     def parse_condition(): # <condition> ::= <expression> <comparison-operation> <expression> | <expression> <comparsison-operation> <condition> 
-        pass
+        node = parse_expression()
+
+        # assumes a < b < c = (a < b) < c
+
+        while True:
+            token_type, token_val = peek()
+            if token_type == "binop" and token_val in ["<", ">", "||", "&&", "=="]:
+                consume("binop")
+                binop_node = Node("binop", token_val)
+                left_child = expression
+                right_child = parse_expression()
+                binop_node.add_child(left_child)
+                binop_node.add_child(right_child)
+
+                node = binop_node
+
+            else:
+                break
+        
+        return node
 
     def parse_while(): # <while-loop> ::= "while" "(" <condition> ")" "{" <compound-statement> "}"
         consume("loop", "while")
