@@ -7,13 +7,20 @@
 <identifiertail> ::= <letter> <identifiertail> | <special_character> <identifiertail> | <letter> | <special_character>
 <integer> ::= <integer> <digit> | <digit>
 
-
-<term> ::= <integer> | <identifier>
+<term> ::= <integer> | <identifier> 
 <comparison-operation> ::= "<" | ">" | "&&" | "|" 
-<condition> ::= <term> <comparison-operation> <term> | <term> <comparsison-operation> <condition>
+<condition> ::= <expression> <comparison-operation> <expression> | <expression> <comparsison-operation> <condition>
 <if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
 
 <compound-statement> ::= <statement> | <statement> <compound-statement>
 <statement> ::= <if-statement> | <assignment> | <loop> | <write> 
 
+<operation> ::= "+" | "-"
+<expression> ::= <term> <operation> <expression> | <term>
+<assignment> ::= <identifier> "=" <expression>
+
 <write> ::= "write" "(" <expression> ")" ";"
+
+<loop> ::= <for-loop> | <while-loop>
+
+<while> ::= "while" "(" <condition> ")" "{" <compound-statement> "}"
