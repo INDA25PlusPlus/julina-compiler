@@ -11,10 +11,6 @@ def is_digit(c: str):
 def is_character(c: str):
     return is_letter(c) or is_digit(c) or c == "_"
   
-def is_operation(c: str):
-    return c == "+" or c == "-"
-
-
 
 def tokenize(program: str):
 
