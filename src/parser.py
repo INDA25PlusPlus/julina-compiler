@@ -68,7 +68,7 @@ def parse(tokens):
 
     def parse_assignment(): # <assignment> ::= <identifier> "=" <expression> ";"
         var_token = consume("variable")
-        consume("assign", "=")
+        consume("assignment", "=")
         assign_to = parse_expression()
         consume("symbol", ";")
         node = Node("assing", var_token[1])
@@ -97,13 +97,27 @@ def parse(tokens):
         node = Node("Write")
         node.add_child(expression)
         return node
-
-    def parse_while():
+    
+    def parse_condition(): # <condition> ::= <expression> <comparison-operation> <expression> | <expression> <comparsison-operation> <condition> 
         pass
+
+    def parse_while(): # <while-loop> ::= "while" "(" <condition> ")" "{" <compound-statement> "}"
+        consume("loop", "while")
+        consume("symbol", "(")
+        condition = parse_condition()
+        consume("symbol", ")")
+        consume("symbol", "{")
+        compound_statement = parse_compound_statement()
+        consume("symbol", "}")
+        node = Node("while")
+        node.add_child("condition", condition)
+        node.add_child("block", compound_statement)
+        return node
+
 
     def parse_compound_statement():
 
-        block = Node("Block")
+        block = Node("block")
 
         while True:
 
@@ -120,6 +134,12 @@ def parse(tokens):
             elif token_type == "condition": 
                 if token_val == "if": 
                     statement = parse_if()
+
+            elif token_type == "variable":
+                parse_assignment()
+
+            else:
+                print(f"INVALID TOKEN: {token_type} {token_val}")
 
             block.add_child(statement)
 

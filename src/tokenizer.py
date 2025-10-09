@@ -47,9 +47,9 @@ def tokenize(program: str):
             continue
 
         
-        # Assign
+        # assignment
         elif c == "=":
-            tokens.append(("assign", c))
+            tokens.append(("assignment", c))
             i += 1
             continue
         
