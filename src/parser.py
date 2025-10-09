@@ -32,12 +32,13 @@ def parse(tokens):
             raise SyntaxError(f"Expected value: {expected_val}, got value: {tok[1]}")
 
         token_idx += 1
+        return tok
 
     def parse_expression(): # <expression> ::= <term> <operation> <expression> | <term>
         parse_term()
         
 
-    def parse_term():
+    def parse_term(): # <term> ::= <integer> | <identifier> 
         token_type, token_val = peek()
         
         if token_type == "integer":
@@ -49,8 +50,14 @@ def parse(tokens):
         else:
             print(f"Unexpected token???: {token_type} {token_val}")
 
-    def parse_assignment():
-        pass
+    def parse_assignment(): # <assignment> ::= <identifier> "=" <expression> ";"
+        var_token = consume("variable")
+        consume("assign", "=")
+        assign_to = parse_expression()
+        consume("symbol", ";")
+        node = Node("assing", var_token[1])
+        node.add_child(assign_to)
+        return node
 
     def parse_if(): # <if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
         consume("condition", "if")
