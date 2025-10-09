@@ -53,10 +53,6 @@ def tokenize(program: str):
                 tokens.append(("symbol", c + c))
                 i += 2
             continue
-        elif c in "<>":
-            tokens.append(("symbol", c))
-            i += 1
-            continue
 
         else:
             print(f"Invalid character!!: {c}")

@@ -10,17 +10,17 @@
 <term> ::= <integer> | <identifier> 
 <comparison-operation> ::= "<" | ">" | "&&" | "||" | "=="
 <condition> ::= <expression> <comparison-operation> <expression> | <expression> <comparsison-operation> <condition>
-<if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
+<if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}" ";"
 
 <compound-statement> ::= <statement> | <statement> <compound-statement>
 <statement> ::= <if-statement> | <assignment> | <loop> | <write> 
 
 <operation> ::= "+" | "-"
 <expression> ::= <term> <operation> <expression> | <term>
-<assignment> ::= <identifier> "=" <expression>
+<assignment> ::= <identifier> "=" <expression> ";"
 
 <write> ::= "write" "(" <expression> ")" ";"
 
 <loop> ::= <for-loop> | <while-loop>
 
-<while-loop> ::= "while" "(" <condition> ")" "{" <compound-statement> "}"
+<while-loop> ::= "while" "(" <condition> ")" "{" <compound-statement> "}" ";"
