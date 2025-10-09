@@ -1,5 +1,5 @@
 
-keywords = ["while", "write", "if"]
+keywords = {"while": "loop", "write": "output", "if": "condition"}
 
 
 def is_letter(c: str):
@@ -15,11 +15,16 @@ def is_character(c: str):
 def tokenize(program: str):
 
     tokens = []
-    program = program.replace(" ", "")
+    #program = program.replace(" ", "")
+    print(program)
 
     i = 0
     while i < len(program):
         c = program[i]
+
+        if c.isspace(): 
+            i += 1
+            continue
 
         # Keywords or identifiers
         if is_letter(c):
@@ -28,9 +33,9 @@ def tokenize(program: str):
                 i += 1
             word = program[start:i]
             if word in keywords:
-                tokens.append(("keyword", word))
+                tokens.append((keywords[word], word))
             else:
-                tokens.append(("identifier", word))
+                tokens.append(("variable", word))
             continue
 
         # Numbers
@@ -38,13 +43,13 @@ def tokenize(program: str):
             start = i
             while i < len(program) and is_digit(program[i]):
                 i += 1
-            tokens.append(("int", program[start:i]))
+            tokens.append(("integer", program[start:i]))
             continue
 
         
         # Assign
         elif c == "=":
-            tokens.append(("assing", c))
+            tokens.append(("assign", c))
             i += 1
             continue
         
@@ -75,4 +80,4 @@ def tokenize(program: str):
 
 
 
-print(tokenize('a = 2 + 3; while (a < 10) { write(a); a = a + 1;}'))
+# print(tokenize('a = 2 + 3; while (a < 10) { write(a); a = a + 1;}'))

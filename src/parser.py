@@ -16,7 +16,29 @@ class Node:
 
 
 def parse(tokens):
-    pass
+    token_idx = 0
 
-    def recursion():
+    def peek():
+        return tokens[token_idx] if token_idx < len(tokens) else None
+    
+
+    def parse_expression():
         pass
+
+    def parse_assignment():
+        pass
+
+    def parse_write():
+        pass
+
+    def parse_while():
+        pass
+
+    def parse_compound_statement():
+        pass
+
+
+    root = Node("program")
+    root.add_child(parse_compound_statement())
+
+    return root
