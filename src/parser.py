@@ -74,7 +74,7 @@ def parse(tokens):
         consume("assignment", "=")
         assign_to = parse_expression()
         consume("symbol", ";")
-        node = Node("assing", var_token[1])
+        node = Node("assign", var_token[1])
         node.add_child(assign_to)
         return node
 
@@ -173,10 +173,11 @@ def parse(tokens):
 
             block.add_child(statement)
 
-
+        return block
 
     root = Node("program")
     root.add_child(parse_compound_statement())
+
 
     return root
 
@@ -193,12 +194,16 @@ program = """
 
 tokens = tokenize(program)
 print(tokens)
-parse(tokens)
+root = parse(tokens)
 
 
 def print_parser_tree(node, indent):
-    print(" "*indent, node.__repr__())
+    if node.value != None:
+        print(f"{' '*indent} {node.type} {node.value}")
+    else:
+        print(f"{' '*indent} {node.type}")
     for child in node.children:
-        print_parser_tree(child, indent+1)
+        print_parser_tree(child, indent+3)
 
 
+print_parser_tree(root, 0)
