@@ -21,12 +21,36 @@ def parse(tokens):
     def peek():
         return tokens[token_idx] if token_idx < len(tokens) else None
     
+    def consume(expected_type=None, expected_val=None):
+
+        tok = peek()
+        if not tok:
+            raise SyntaxError("Expected end of input")
+        if expected_type and tok[0] != expected_type:
+            raise SyntaxError(f"Expected type: {expected_type}, got type: {tok[0]}")
+        if expected_val and tok[1] != expected_val:
+            raise SyntaxError(f"Expected value: {expected_val}, got value: {tok[1]}")
+
+        token_idx += 1
 
     def parse_expression():
         pass
 
     def parse_assignment():
         pass
+
+    def parse_if():
+        consume("condition", "if")
+        consume("symbol", "(")
+        condition = parse_expression()
+        consume("symbol", ")")
+        consume("symbol", "{")
+        compund_statement = parse_compound_statement()
+        consume("}")
+        node = Node("if")
+        node.add_child(condition)
+        node.add_child(compund_statement)
+        return node
 
     def parse_write():
         pass
@@ -35,7 +59,27 @@ def parse(tokens):
         pass
 
     def parse_compound_statement():
-        pass
+
+        block = Node("Block")
+
+        while True:
+
+            token_type, token_val = peek()
+
+            if token_type == "loop":
+                if token_val == "while":
+                    statement = parse_while()
+
+            elif token_type == "output":
+                if token_val == "write":
+                    statement = parse_write()
+
+            elif token_type == "condition": 
+                if token_val == "if": # <if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
+                    statement = parse_if()
+
+            block.add_child(statement)
+
 
 
     root = Node("program")
