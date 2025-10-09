@@ -1,12 +1,19 @@
 
-<letter> ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+<letter> ::= [A-Z] | [a-z]
 <special_character> ::= "_" | <digit>
-<digit>  ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<digit>  ::= [0-9]
 
-
-<identifier> ::= "!" <identifiertail> | "!"
+<identifier> ::= <letter> <identifiertail> | <letter>
 <identifiertail> ::= <letter> <identifiertail> | <special_character> <identifiertail> | <letter> | <special_character>
 <integer> ::= <integer> <digit> | <digit>
 
-<expression> 
-<condition> ::= '(' <expression> ')'
+
+<term> ::= <integer> | <identifier>
+<comparison-operation> ::= "<" | ">" | "&&" | "|" 
+<condition> ::= <term> <comparison-operation> <term> | <term> <comparsison-operation> <condition>
+<if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
+
+<compound-statement> ::= <statement> | <statement> <compound-statement>
+<statement> ::= <if-statement> | <assignment> | <loop> | <write> 
+
+<write> ::= "write" "(" <expression> ")" ";"
