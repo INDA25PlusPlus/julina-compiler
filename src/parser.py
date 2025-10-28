@@ -137,7 +137,7 @@ def parse(tokens):
         return node
 
 
-    def parse_compound_statement():
+    def parse_compound_statement(): # <compound-statement> ::= <statement> | <statement> <compound-statement>
 
         block = Node("block")
 
@@ -165,7 +165,7 @@ def parse(tokens):
 
             elif token_type == "symbol":
                 if token_val == "}": # end of loop
-                    return Node("_")
+                    break
 
 
             else:
