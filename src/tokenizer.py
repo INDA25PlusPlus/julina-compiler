@@ -1,5 +1,5 @@
 
-keywords = {"while": "loop", "write": "output", "if": "condition"}
+keywords = {"medan": "loop", "skriv": "output", "om": "condition", "samre": "binop", "battre": "binop", "ar": "assignment"}
 
 
 def is_letter(c: str):
@@ -46,13 +46,18 @@ def tokenize(program: str):
             continue
 
         
-        # assignment
-        elif c == "=":
-            tokens.append(("assignment", c))
-            i += 1
-            continue
+        # # assignment
+        # elif c == "ar":
+        #     tokens.append(("assignment", c))
+        #     i += 1
+        #     continue
         
-        # Operators and symbols
+        # # Operators and symbols
+        # elif c == "sämre": # <
+        #     tokens.append(("binop", c))
+        # elif c == "bättre": # >
+        #     tokens.append(("binop", c))
+
         elif c in "+-<>":
             tokens.append(("binop", c))
             i += 1
@@ -69,8 +74,11 @@ def tokenize(program: str):
             if i + 1 < len(program) and program[i + 1] == c: 
                 tokens.append(("binop", c + c))
                 i += 2
+            else:
+                print(f"Invalid character!!: {c}")
+                exit(1)
             continue
-
+        
         else:
             print(f"Invalid character!!: {c}")
             exit(1)

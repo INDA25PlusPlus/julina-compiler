@@ -8,19 +8,19 @@
 <integer> ::= <integer> <digit> | <digit>
 
 <term> ::= <integer> | <identifier> 
-<comparison-operation> ::= "<" | ">" | "&&" | "||" | "=="
+<comparison-operation> ::= "samre" | "battre" | "&&" | "||" | "=="
 <condition> ::= <expression> <comparison-operation> <expression> | <expression> <comparsison-operation> <condition>
-<if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
+<if-statement> ::= "om" "(" <condition> ")" "{" <compound-statement> "}"
 
 <compound-statement> ::= <statement> | <statement> <compound-statement>
 <statement> ::= <if-statement> | <assignment> | <loop> | <write> 
 
 <operation> ::= "+" | "-"
 <expression> ::= <term> <operation> <expression> | <term>
-<assignment> ::= <identifier> "=" <expression> ";"
+<assignment> ::= <identifier> "ar" <expression> ";"
 
-<write> ::= "write" "(" <expression> ")" ";"
+<write> ::= "skriv" "(" <expression> ")" ";"
 
 <loop> ::= <for-loop> | <while-loop>
 
-<while-loop> ::= "while" "(" <condition> ")" "{" <compound-statement> "}"
+<while-loop> ::= "medan" "(" <condition> ")" "{" <compound-statement> "}"

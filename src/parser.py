@@ -71,7 +71,7 @@ def parse(tokens):
 
     def parse_assignment(): # <assignment> ::= <identifier> "=" <expression> ";"
         var_token = consume("variable")
-        consume("assignment", "=")
+        consume("assignment", "ar")
         assign_to = parse_expression()
         consume("symbol", ";")
         node = Node("assign", var_token[1])
@@ -79,7 +79,7 @@ def parse(tokens):
         return node
 
     def parse_if(): # <if-statement> ::= "if" "(" <condition> ")" "{" <compound-statement> "}"
-        consume("condition", "if")
+        consume("condition", "om")
         consume("symbol", "(")
         condition = parse_expression()
         consume("symbol", ")")
@@ -92,12 +92,12 @@ def parse(tokens):
         return node
 
     def parse_write(): # <write> ::= "write" "(" <expression> ")" ";"
-        consume("output", "write")
+        consume("output", "skriv")
         consume("symbol", "(")
         expression = parse_expression()
         consume("symbol", ")")
         consume("symbol", ";")
-        node = Node("Write")
+        node = Node("write")
         node.add_child(expression)
         return node
     
@@ -108,9 +108,14 @@ def parse(tokens):
 
         while True:
             token_type, token_val = peek()
-            if token_type == "binop" and token_val in ["<", ">", "||", "&&", "=="]:
+            if token_type == "binop" and token_val in ["samre", "battre", "||", "&&", "=="]:
                 consume("binop")
-                binop_node = Node("binop", token_val)
+                if token_val == "samre":
+                    binop_node = Node("binop", "<")
+                elif token_val == "battre":
+                    binop_node = Node("binop", ">")
+                else:
+                    binop_node = Node("binop", token_val)
                 left_child = node
                 right_child = parse_expression()
                 binop_node.add_child(left_child)
@@ -124,7 +129,7 @@ def parse(tokens):
         return node
 
     def parse_while(): # <while-loop> ::= "while" "(" <condition> ")" "{" <compound-statement> "}"
-        consume("loop", "while")
+        consume("loop", "medan")
         consume("symbol", "(")
         condition = parse_condition()
         consume("symbol", ")")
@@ -149,15 +154,15 @@ def parse(tokens):
             token_type, token_val = peek()
             
             if token_type == "loop":
-                if token_val == "while":
+                if token_val == "medan":
                     statement = parse_while()
 
             elif token_type == "output":
-                if token_val == "write":
+                if token_val == "skriv":
                     statement = parse_write()
 
             elif token_type == "condition": 
-                if token_val == "if": 
+                if token_val == "om": 
                     statement = parse_if()
 
             elif token_type == "variable":
@@ -184,11 +189,11 @@ def parse(tokens):
 
 
 program = """
-        a = 2 + 3;
+        a ar 2 + 3;
 
-        while (a < 10) {
-            write(a);
-            a = a + 1;
+        medan (a samre 10) {
+            skriv(a);
+            a ar a + 1;
         }
         """
 
