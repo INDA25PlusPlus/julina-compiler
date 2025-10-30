@@ -86,5 +86,3 @@ def tokenize(program: str):
     return tokens
 
 
-
-# print(tokenize('a = 2 + 3; while (a < 10) { write(a); a = a + 1;}'))

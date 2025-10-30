@@ -29,6 +29,7 @@ def parse(tokens):
         if not tok:
             raise SyntaxError("Expected end of input")
         if expected_type and tok[0] != expected_type:
+            print(tok)
             raise SyntaxError(f"Expected type: {expected_type}, got type: {tok[0]}")
         if expected_val and tok[1] != expected_val:
             raise SyntaxError(f"Expected value: {expected_val}, got value: {tok[1]}")
@@ -183,23 +184,32 @@ def parse(tokens):
     root = Node("program")
     root.add_child(parse_compound_statement())
 
-
     return root
 
 
 
-program = """
-        a ar 2 + 3;
+# program = """
+#         prev1 ar 0;
+#         prev2 ar 1;
+#         cur ar 1;
+#         i ar 0;
 
-        medan (a samre 10) {
-            skriv(a);
-            a ar a + 1;
-        }
-        """
+#         skriv(prev1);
+#         skriv(prev2);
 
-tokens = tokenize(program)
-print(tokens)
-root = parse(tokens)
+#         medan (i samre 50) {
+
+#             cur ar prev1 + prev2;
+#             prev1 ar prev2;
+#             prev2 ar cur;
+#             i ar i + 1;
+#             skriv(cur);
+#         }
+#         """
+
+# tokens = tokenize(program)
+# print(tokens)
+# root = parse(tokens)
 
 
 def print_parser_tree(node, indent):
@@ -210,5 +220,4 @@ def print_parser_tree(node, indent):
     for child in node.children:
         print_parser_tree(child, indent+3)
 
-
-print_parser_tree(root, 0)
+#print_parser_tree(root, 0)

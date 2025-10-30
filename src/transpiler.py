@@ -4,11 +4,35 @@ def generate_python(ast_root):
 
     all_lines = []
 
-    for child in ast_root.children:
-        result = generate_code(child, 0)
-        all_lines.append(result)
+    if ast_root.type == "program":
+        ast_root = ast_root.children[0]
 
-    # returnera alla rader sammanslagna till en enda text (separerade med \n)
+    for child in ast_root.children:
+        print(child)
+        result = generate_code(child, 0)
+        all_lines.extend(result)
+
+    return "\n".join(all_lines)
+
+
+
+
+def gen_expr(node):
+
+    if node.type == "variable" or node.type == "integer":
+        return str(node.value)
+
+    
+    if node.type == "binop":
+        op = node.value # +, -, <, > etc.
+        # recursive
+        left_text = gen_expr(node.children[0])
+        right_text = gen_expr(node.children[1])
+
+        return "(" + left_text + " " + op + " " + right_text + ")"
+
+    
+
 
 def generate_code(node, indent_level):
     
@@ -23,12 +47,13 @@ def generate_code(node, indent_level):
         pass
 
     if node.type == "assign":
-        pass
+       expression = gen_expr(node.children[0])
+       lines.append(f"{indent}{node.value} = {expression}")
+
 
     if node.type == "write":
-        pass
+
+        lines.append(f"{indent}print({str(node.children[0].value)})")
 
 
-
-    for child in node.children:
-        generate_code(child, indent_level+5)
+    return lines
