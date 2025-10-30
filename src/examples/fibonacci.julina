@@ -1,0 +1,19 @@
+
+prev1 ar 0;
+prev2 ar 1;
+cur ar 1;
+i ar 0;
+
+test ar 0 + 1 - 2;
+
+skriv(prev1);
+skriv(prev2);
+
+medan (i samre 50) {
+
+    cur ar prev1 + prev2;
+    prev1 ar prev2;
+    prev2 ar cur;
+    i ar i + 1;
+    skriv(cur);
+}
