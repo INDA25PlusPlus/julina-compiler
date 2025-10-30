@@ -12,6 +12,7 @@ def generate_python(ast_root):
         result = generate_code(child, 0)
         all_lines.extend(result)
 
+    print(all_lines)
     return "\n".join(all_lines)
 
 
@@ -41,10 +42,21 @@ def generate_code(node, indent_level):
 
     if node.type == "block":
         for child in node.children:
-            generate_code(child, indent_level)
+            lines.extend(generate_code(child, indent_level+1))
 
     if node.type == "while":
-        pass
+        condition_node = node.children[0]
+        block_node = node.children[1]
+
+        condition = generate_code(condition_node, indent_level)
+        while_block = generate_code(block_node, indent_level)
+
+        lines.append(f"while {condition}:")
+        lines.extend(while_block)
+
+    
+    if node.type == "binop":
+        return gen_expr(node)
 
     if node.type == "assign":
        expression = gen_expr(node.children[0])
@@ -52,7 +64,6 @@ def generate_code(node, indent_level):
 
 
     if node.type == "write":
-
         lines.append(f"{indent}print({str(node.children[0].value)})")
 
 
