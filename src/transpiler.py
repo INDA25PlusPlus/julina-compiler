@@ -8,11 +8,9 @@ def generate_python(ast_root):
         ast_root = ast_root.children[0]
 
     for child in ast_root.children:
-        print(child)
         result = generate_code(child, 0)
         all_lines.extend(result)
 
-    print(all_lines)
     return "\n".join(all_lines)
 
 
